@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoHTTP Server</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .endpoint {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .phase {
+            color: #90EE90;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>HTTP Server</h1>
+        <p>Welcome to my custom HTTP server! This server is implemented from scratch in Go without using the standard <code>net/http</code> library.</p>
+        
+        <div class="feature">
+            <h3>HTTP Server Implementation</h3>
+            <p>Built from scratch without using net/http library</p>
+        </div>
+
+        <div class="feature">
+            <h3>Available Endpoints:</h3>
+            <div class="endpoint">GET / - This welcome page</div>
+            <div class="endpoint">GET /hello - Simple greeting</div>
+            <div class="endpoint">GET /info - Request information</div>
+            <div class="endpoint">GET /json - JSON response</div>
+            <div class="endpoint">GET /stats - Server statistics</div>
+            <div class="endpoint">GET /config - Server configuration</div>
+            <div class="endpoint">POST /echo - Echo POST data</div>
+            <div class="endpoint">GET /static/* - Static files</div>
+        </div>
+
+        <div class="feature">
+            <h3>Test POST Endpoint:</h3>
+            <form style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 5px; margin: 10px 0;">
+                <label for="postData">Test data to echo:</label><br>
+                <input type="text" id="postData" placeholder="Hello World!" style="width: 70%; padding: 5px; margin: 5px 0; color: #333;">
+                <button type="button" onclick="testPost()" style="padding: 5px 10px; margin-left: 5px;">Send POST</button>
+                <div id="result" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 3px; display: none;"></div>
+            </form>
+        </div>
+
+        <div class="feature">
+            <h3>Test Server Statistics:</h3>
+            <button type="button" onclick="getStats()" style="padding: 5px 15px; margin: 5px;">Get Stats</button>
+            <div id="statsResult" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 3px; display: none;"></div>
+        </div>
+
+        <div class="feature">
+            <h3>Test Server Configuration:</h3>
+            <button type="button" onclick="getConfig()" style="padding: 5px 15px; margin: 5px;">Get Config</button>
+            <div id="configResult" style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 3px; display: none;"></div>
+        </div>
+
+        <script>
+        async function testPost() {
+            const data = document.getElementById('postData').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const response = await fetch('/echo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
+                    body: data
+                });
+                
+                const result = await response.text();
+                resultDiv.innerHTML = '<strong>Response:</strong><br><pre>' + result + '</pre>';
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        async function getStats() {
+            const resultDiv = document.getElementById('statsResult');
+            
+            try {
+                const response = await fetch('/stats');
+                const result = await response.text();
+                const statsJson = JSON.parse(result);
+                
+                resultDiv.innerHTML = '<strong>Server Statistics:</strong><br><pre>' + JSON.stringify(statsJson, null, 2) + '</pre>';
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
+                resultDiv.style.display = 'block';
+            }
+        }
+
+        async function getConfig() {
+            const resultDiv = document.getElementById('configResult');
+            
+            try {
+                const response = await fetch('/config');
+                const result = await response.text();
+                const configJson = JSON.parse(result);
+                
+                resultDiv.innerHTML = '<strong>Server Configuration:</strong><br><pre>' + JSON.stringify(configJson, null, 2) + '</pre>';
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
+                resultDiv.style.display = 'block';
+            }
+        }
+        </script>
+
+        <div class="feature">
+            <h3>Features:</h3>
+            <ul>
+                <li>TCP socket programming</li>
+                <li>HTTP/1.1 protocol parsing</li>
+                <li>Request/response handling</li>
+                <li>Basic routing system</li>
+                <li>Static file serving</li>
+                <li>MIME type detection</li>
+                <li>POST request body parsing</li>
+                <li>Error handling (400, 404, 405, 500)</li>
+                <li>Concurrent request handling</li>
+                <li>Middleware system (logging, recovery, rate limiting)</li>
+                <li>Real-time server statistics</li>
+                <li>Graceful shutdown</li>
+                <li>Configuration management</li>
+                <li>Comprehensive testing suite</li>
+                <li>Docker containerization</li>
+            </ul>
+        </div>
+
+        <div class="feature">
+            <h3>What I Learned:</h3>
+            <p>This project taught me a lot about low-level network programming, HTTP protocol fundamentals, and building web servers from first principles.</p>
+        </div>
+    </div>
+</body>
+</html>

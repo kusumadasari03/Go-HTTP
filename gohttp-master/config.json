@@ -1,0 +1,19 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 8080,
+    "read_timeout_seconds": 30,
+    "write_timeout_seconds": 30,
+    "idle_timeout_seconds": 120
+  },
+  "limits": {
+    "max_concurrent_requests": 100,
+    "max_request_body_size_bytes": 1048576,
+    "request_timeout_seconds": 30
+  },
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "color_output": true
+  }
+}

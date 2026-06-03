@@ -1,0 +1,24 @@
+{
+    "message": "Hello from HTTP Server!",
+    "server": "Custom HTTP Implementation",
+    "version": "1.0.0",
+    "features": [
+        "TCP socket programming",
+        "HTTP protocol parsing",
+        "Static file serving",
+        "MIME type detection",
+        "Basic routing",
+        "Concurrent handling",
+        "Middleware support"
+    ],
+    "endpoints": {
+        "/": "Welcome page",
+        "/hello": "Simple greeting",
+        "/info": "Request information",
+        "/json": "This JSON endpoint",
+        "/stats": "Server statistics",
+        "/config": "Server configuration",
+        "/static/*": "Static file serving"
+    },
+    "timestamp": "2025-10-03T01:30:00Z"
+}
